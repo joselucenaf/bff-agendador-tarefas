@@ -95,7 +95,7 @@ public class UsuarioController {
     @ApiResponse(responseCode = "404", description = "Usuário não encontrado")
     @ApiResponse(responseCode = "500", description = "Erro de servidor")
     public ResponseEntity<EnderecoDTO> cadastraEndereco(@RequestBody EnderecoDTO dto,
-                                                        @RequestHeader("Authorization") String token){
+                                                        @RequestHeader(name = "Authorization", required = false) String token){
         return ResponseEntity.ok(usuarioService.cadastraEndereco(token, dto));
     }
 
@@ -105,7 +105,7 @@ public class UsuarioController {
     @ApiResponse(responseCode = "404", description = "Usuário não encontrado")
     @ApiResponse(responseCode = "500", description = "Erro de servidor")
     public ResponseEntity<TelefoneDTO> cadastraTelefone(@RequestBody TelefoneDTO dto,
-                                                        @RequestHeader("Authorization") String token){
+                                                        @RequestHeader(name = "Authorization", required = false) String token){
         return ResponseEntity.ok(usuarioService.cadastraTelefone(token, dto));
     }
 }
