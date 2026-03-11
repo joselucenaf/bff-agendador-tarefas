@@ -1,7 +1,8 @@
 package com.lucena.bffagendadortarefas.business;
 
 
-import com.lucena.bffagendadortarefas.business.dto.TarefasDTO;
+import com.lucena.bffagendadortarefas.business.dto.in.TarefasDTORequest;
+import com.lucena.bffagendadortarefas.business.dto.out.TarefasDTOResponse;
 import com.lucena.bffagendadortarefas.business.enums.StatusNotificacaoEnum;
 import com.lucena.bffagendadortarefas.infrastructure.client.TarefasClient;
 import lombok.RequiredArgsConstructor;
@@ -17,17 +18,17 @@ public class TarefasService {
 
     private final TarefasClient tarefasClient;
 
-    public TarefasDTO gravarTarefa(String token, TarefasDTO dto){
+    public TarefasDTOResponse gravarTarefa(String token, TarefasDTORequest dto){
 
         return tarefasClient.gravarTarefas(dto, token);
     }
-    public List<TarefasDTO> buscarTarefasAgendadasPorPeriodo(LocalDateTime dataInicial,
-                                                             LocalDateTime dataFinal,
-                                                             String token){
+    public List<TarefasDTOResponse> buscarTarefasAgendadasPorPeriodo(LocalDateTime dataInicial,
+                                                                     LocalDateTime dataFinal,
+                                                                     String token){
         return tarefasClient.buscaListaDeTarefasPorPeriodo(dataInicial, dataFinal, token);
     }
 
-    public List<TarefasDTO> buscaTarefasPorEmail(String token){
+    public List<TarefasDTOResponse> buscaTarefasPorEmail(String token){
         return tarefasClient.buscaTarefasPorEmail(token);
     }
 
@@ -35,11 +36,11 @@ public class TarefasService {
         tarefasClient.deletaTarefaPorId(id, token);
     }
 
-    public TarefasDTO alterarStatus(StatusNotificacaoEnum status, String id, String token){
+    public TarefasDTOResponse alterarStatus(StatusNotificacaoEnum status, String id, String token){
        return tarefasClient.alterarStatusNotificacao(status, id, token);
     }
 
-    public TarefasDTO updateTarefas(TarefasDTO dto, String id, String token) {
+    public TarefasDTOResponse updateTarefas(TarefasDTORequest dto, String id, String token) {
         return tarefasClient.updateTarefas(dto, id, token);
     }
 }

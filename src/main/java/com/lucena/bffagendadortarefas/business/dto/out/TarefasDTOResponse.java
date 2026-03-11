@@ -1,4 +1,4 @@
-package com.lucena.bffagendadortarefas.business.dto;
+package com.lucena.bffagendadortarefas.business.dto.out;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.lucena.bffagendadortarefas.business.enums.StatusNotificacaoEnum;
@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class TarefasDTO {
+public class TarefasDTOResponse {
 
     private String id;
     private String nomeTarefa;

@@ -1,7 +1,8 @@
 package com.lucena.bffagendadortarefas.infrastructure.client;
 
 
-import com.lucena.bffagendadortarefas.business.dto.TarefasDTO;
+import com.lucena.bffagendadortarefas.business.dto.in.TarefasDTORequest;
+import com.lucena.bffagendadortarefas.business.dto.out.TarefasDTOResponse;
 import com.lucena.bffagendadortarefas.business.enums.StatusNotificacaoEnum;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -15,29 +16,29 @@ import java.util.List;
 public interface TarefasClient {
 
     @PostMapping
-    TarefasDTO gravarTarefas(@RequestBody TarefasDTO dto,
-                             @RequestHeader("Authorization") String token);
+    TarefasDTOResponse gravarTarefas(@RequestBody TarefasDTORequest dto,
+                                     @RequestHeader("Authorization") String token);
 
     @GetMapping("/eventos")
-    List<TarefasDTO> buscaListaDeTarefasPorPeriodo(
+    List<TarefasDTOResponse> buscaListaDeTarefasPorPeriodo(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dataInicial,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dataFinal,
             @RequestHeader("Authorization") String token);
 
 
     @GetMapping
-    List<TarefasDTO> buscaTarefasPorEmail(@RequestHeader("Authorization") String token);
+    List<TarefasDTOResponse> buscaTarefasPorEmail(@RequestHeader("Authorization") String token);
 
     @DeleteMapping
     void deletaTarefaPorId(@RequestParam("id") String id,
                            @RequestHeader("Authorization") String token);
     @PatchMapping
-    TarefasDTO alterarStatusNotificacao(@RequestParam("status") StatusNotificacaoEnum status,
-                                        @RequestParam("id") String id,
-                                        @RequestHeader("Authorization") String token);
+    TarefasDTOResponse alterarStatusNotificacao(@RequestParam("status") StatusNotificacaoEnum status,
+                                                @RequestParam("id") String id,
+                                                @RequestHeader("Authorization") String token);
     @PutMapping
-    TarefasDTO updateTarefas(@RequestBody TarefasDTO dto,
-                             @RequestParam("id")String id,
-                             @RequestHeader("Authorization") String token);
+    TarefasDTOResponse updateTarefas(@RequestBody TarefasDTORequest dto,
+                                     @RequestParam("id")String id,
+                                     @RequestHeader("Authorization") String token);
 }
 
