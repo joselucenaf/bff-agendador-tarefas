@@ -4,6 +4,7 @@ import com.lucena.bffagendadortarefas.business.dto.in.LoginDTORequest;
 import com.lucena.bffagendadortarefas.business.dto.out.TarefasDTOResponse;
 import com.lucena.bffagendadortarefas.business.enums.StatusNotificacaoEnum;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class CronService {
 
     private final TarefasService tarefasService;
@@ -35,18 +37,21 @@ public class CronService {
 
     public void buscaTarefasProximaHora(){
         String token = login(converterParaRequestDTO());
-
+        log.info("Iniciada a busca de tarefas");
         LocalDateTime horaAtual = LocalDateTime.now();
         LocalDateTime horaFutura = LocalDateTime.now().plusHours(1);
         //Qualquer tarefa que fique entre a hora atual e a hora futura + 1
-        //Se agora é 22h qualquer tarefa entre 22h e 23h
+        //Se agora é 22h, qualquer tarefa entre 22h e 23h
                 //Serao permitidas o cadastro de tarefas
 
         List<TarefasDTOResponse> listaTarefas = tarefasService.buscarTarefasAgendadasPorPeriodo(horaAtual, horaFutura, token);
-
+        log.info("Tarefas encontradas "+ listaTarefas);
         listaTarefas.forEach(tarefa -> {
             emailService.enviaEmail(tarefa);
-            tarefasService.alterarStatus(StatusNotificacaoEnum.NOTIFICADO, tarefa.getId(), token);});
+            log.info("Email enviado para o usuário "+ tarefa.getEmailUsuario());
+            tarefasService.alterarStatus(StatusNotificacaoEnum.NOTIFICADO, tarefa.getId(), token);
+        });
+        log.info("Finalizada a busca e notificação de tarefas");
     }
 
     public String login(LoginDTORequest dto){
